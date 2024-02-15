@@ -8,12 +8,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.review.tfg.config.DatosIniciales;
 import com.review.tfg.dto.auth.request.LoginRequest;
 import com.review.tfg.dto.auth.request.SignUpRequest;
 import com.review.tfg.dto.auth.response.TokenDTO;
 import com.review.tfg.entity.Role;
 import com.review.tfg.entity.Usuario;
+import com.review.tfg.error.exception.CantCreateUserException;
 import com.review.tfg.repository.UsuarioRepository;
 import com.review.tfg.service.AuthenticationService;
 import com.review.tfg.service.JwtService;
@@ -41,7 +41,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	public TokenDTO signup(SignUpRequest request) throws IllegalArgumentException{
 
 		if(!validSignUpRequest(request)) {
-			return null; //TODO Devolver mensaje de error
+			return null;
 		}
 
 		Usuario usuario = new Usuario();
@@ -52,8 +52,15 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 		usuario.setPassword(passwordEncoder.encode(request.getPassword()));
 		usuario.setFechaCreacion(new Date());
 		usuario.getRoles().add(Role.ROLE_USER);
-		userRepo.save(usuario);
-		logger.info("## USUARIO CREADO ##");
+
+		try {
+			userRepo.save(usuario);
+		}
+		catch(Exception ex) {
+			throw new CantCreateUserException("Ha habido un error al intentar crear el usuario: " + ex.getMessage());
+		}
+		
+		logger.info("## USUARIO CREADO CON EXITO ##");
 
 		logger.info("## INTENTANDO GENERAR TOKEN ##");
         String jwt = jwtService.generateToken(usuario);
@@ -75,14 +82,19 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	
 	private Boolean validSignUpRequest(SignUpRequest request) {
 		
+		//Comprobamos que estén los campos obligatorios
+		if(request.getNick() == null || request.getEmail() == null || request.getTelefono() == null || request.getPassword() == null) {
+			throw new CantCreateUserException("Para crear un usuario son obligatorios los campos nick, email, telefono y password");
+		}
+		
 		//Comprobamos si el email esta en uso
 		if(userRepo.existsByEmail(request.getEmail())) {
-			throw new IllegalArgumentException("El email ya está en uso");
+			throw new CantCreateUserException("No se puede crear el usuario ya que el email está en uso");
 		}
 		
 		//Comprobamos si el nick esta en uso
 		if(userRepo.existsByNick(request.getNick())) {
-			throw new IllegalArgumentException("El nombre de usuario ya está en uso");
+			throw new CantCreateUserException("No se puede crear el usuario ya que el nick está en uso");
 		}
 		
 		return true;

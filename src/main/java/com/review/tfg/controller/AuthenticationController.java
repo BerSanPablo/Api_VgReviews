@@ -32,4 +32,10 @@ public class AuthenticationController {
     public ResponseEntity<TokenDTO> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authenticationService.signin(request));
     }
+
+    //TODO - Recibir un token para dar uno fresco
+    @PostMapping("/loginToken")
+    public ResponseEntity<TokenDTO> loginToken(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(authenticationService.signin(request));
+    }
 }

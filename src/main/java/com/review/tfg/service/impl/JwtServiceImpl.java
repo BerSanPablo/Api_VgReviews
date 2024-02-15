@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.review.tfg.error.exception.BadTokenException;
 import com.review.tfg.service.JwtService;
 
 import io.jsonwebtoken.Claims;
@@ -37,7 +38,16 @@ public class JwtServiceImpl implements JwtService {
 	@Override
 	public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
-        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        
+        if(isTokenExpired(token)){
+        	throw new BadTokenException("La sesión del token ha expirado");
+        }
+        
+        if(!userName.equals(userDetails.getUsername())) {
+        	throw new BadTokenException("Se ha encontrado un token incorrecto");
+        }
+        
+        return true;
 	}
 
 
