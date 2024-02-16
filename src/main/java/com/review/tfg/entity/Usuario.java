@@ -58,6 +58,7 @@ public class Usuario implements UserDetails {
 	
     @Email
 	@NotNull(message = "El email no puede ser nulo")
+    @Column(unique=true)
 	private String email;
     
 	private String telefono;
@@ -108,7 +109,9 @@ public class Usuario implements UserDetails {
 	
 	@PrePersist
 	void camposPorDefecto() {
-		this.roles = new HashSet<Role>();
+		if(this.roles == null) {
+			this.roles = new HashSet<Role>();
+		}
 		this.roles.add(Role.ROLE_USER);
 		this.fechaCreacion = new Date();
 	}

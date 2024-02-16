@@ -1,5 +1,6 @@
 package com.review.tfg.error;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -96,6 +97,24 @@ public class GlobalExceptionHandler {
             errors);
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+	/**
+     * ###################################################
+     * #        Se ha violado una clave primaria        ##
+     * ###################################################
+     * @param ex
+     * @param request
+     * @return ErrorDetailsResponse
+     */
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<ErrorDetailsResponse> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex, WebRequest request) {
+    	ErrorDetailsResponse errorDetails = new ErrorDetailsResponse(
+            new Date(),
+            ex.getMessage(),
+            request.getDescription(false));
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
     }
     
 }

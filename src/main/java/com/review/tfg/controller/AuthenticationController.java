@@ -30,7 +30,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<TokenDTO> login(@RequestBody @Valid LoginRequest request) {
         return ResponseEntity.ok(authenticationService.signin(request));
     }
 

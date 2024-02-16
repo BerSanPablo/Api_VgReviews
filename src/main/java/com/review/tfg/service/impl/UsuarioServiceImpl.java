@@ -1,10 +1,14 @@
 package com.review.tfg.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import com.review.tfg.dto.usuario.response.UsuarioDTO;
 import com.review.tfg.entity.Usuario;
 import com.review.tfg.error.exception.UserNotFoundException;
 import com.review.tfg.repository.UsuarioRepository;
@@ -24,7 +28,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) {
-            	Usuario user = repo.findByEmail(username);
+            	Usuario user = repo.findByNick(username);
+            	
             	if (user == null) {
             		throw new UserNotFoundException("No se ha encontrado al usuario con nombre " + username);
             	}
@@ -32,5 +37,13 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
         };
     }
+
+	@Override
+	public List<UsuarioDTO> obtenerUsuarios() {
+		return repo.findAll()
+					.stream()
+					.map(UsuarioDTO::new)
+					.collect(Collectors.toList());
+	}
 
 }
