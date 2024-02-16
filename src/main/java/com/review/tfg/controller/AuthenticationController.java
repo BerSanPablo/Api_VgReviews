@@ -2,6 +2,8 @@ package com.review.tfg.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,9 +36,8 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.signin(request));
     }
 
-    //TODO - Recibir un token para dar uno fresco
     @PostMapping("/loginToken")
-    public ResponseEntity<TokenDTO> loginToken(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authenticationService.signin(request));
+    public ResponseEntity<TokenDTO> loginToken(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(authenticationService.updateToken(userDetails));
     }
 }

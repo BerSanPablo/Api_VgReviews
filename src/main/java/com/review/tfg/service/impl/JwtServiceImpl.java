@@ -36,7 +36,7 @@ public class JwtServiceImpl implements JwtService {
 	}
 
 	@Override
-	public boolean isTokenValid(String token, UserDetails userDetails) {
+	public boolean validateToken(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
         
         if(isTokenExpired(token)){
@@ -69,7 +69,7 @@ public class JwtServiceImpl implements JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // Token expira en un dia
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // Token expira en una hora
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
