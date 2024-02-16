@@ -2,9 +2,16 @@ package com.review.tfg.dto.usuario.response;
 
 import com.review.tfg.entity.Usuario;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class UsuarioDTO {
 	
+	@Size(max = 16000000, message = "La imagen de perfil es demasiado grande")
 	private byte[] imagenPerfil;
+	
+	@NotBlank(message = "El nick no se puede dejar vacío")
+	@Size(max = 100, message = "El nick debe tener un maximo de 100 caracteres")
 	private String nick;
 	
 	public UsuarioDTO() {}

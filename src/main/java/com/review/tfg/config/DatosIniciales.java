@@ -33,7 +33,7 @@ public class DatosIniciales implements CommandLineRunner {
 			Usuario admin = new Usuario();
 			admin.setNick("admin");
 			admin.setEmail("admin@admin.com");
-			admin.setPassword(new BCryptPasswordEncoder(10).encode("admin"));
+			admin.setPassword(new BCryptPasswordEncoder(10).encode("passwordadmin"));
 			admin.getRoles().add(Role.ROLE_USER);
 			admin.getRoles().add(Role.ROLE_ADMIN);
 			userRepo.save(admin);

@@ -13,6 +13,7 @@ import com.review.tfg.dto.auth.request.SignUpRequest;
 import com.review.tfg.dto.auth.response.TokenDTO;
 import com.review.tfg.service.AuthenticationService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,7 +25,7 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
 	
     @PostMapping("/signup")
-    public ResponseEntity<TokenDTO> signup(@RequestBody SignUpRequest request) {
+    public ResponseEntity<TokenDTO> signup(@RequestBody @Valid SignUpRequest request) {
         return ResponseEntity.ok(authenticationService.signup(request));
     }
 

@@ -2,8 +2,11 @@ package com.review.tfg.dto.usuario.request;
 
 import com.review.tfg.dto.usuario.response.UsuarioDTO;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class UsuarioFormDTO extends UsuarioDTO {
 	
+	@NotBlank(message = "El email no se puede dejar vacío")
 	private String email;
 	private String telefono;
 	

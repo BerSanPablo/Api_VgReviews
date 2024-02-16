@@ -1,14 +1,19 @@
 package com.review.tfg.error;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
 import com.review.tfg.dto.auth.response.ErrorDetailsResponse;
+import com.review.tfg.dto.auth.response.ErrorListResponse;
 import com.review.tfg.error.exception.BadTokenException;
 import com.review.tfg.error.exception.CantCreateUserException;
 import com.review.tfg.error.exception.UserNotFoundException;
@@ -68,6 +73,29 @@ public class GlobalExceptionHandler {
             request.getDescription(false));
 
         return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
+    }
+
+	/**
+     * ###################################################
+     * # No se ha podido validar una entidad con @Valid ##
+     * ###################################################
+     * @param ex
+     * @param request
+     * @return ErrorDetailsResponse
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorListResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, WebRequest request) {
+    	List<String> errors = ex.getBindingResult()
+    							.getFieldErrors()
+                				.stream()
+                				.map(FieldError::getDefaultMessage)
+                				.collect(Collectors.toList());
+    	
+    	ErrorListResponse errorDetails = new ErrorListResponse(
+            new Date(),
+            errors);
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
     
 }

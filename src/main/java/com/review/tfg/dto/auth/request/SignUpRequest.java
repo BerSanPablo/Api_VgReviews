@@ -2,8 +2,13 @@ package com.review.tfg.dto.auth.request;
 
 import com.review.tfg.dto.usuario.request.UsuarioFormDTO;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class SignUpRequest extends UsuarioFormDTO {
 
+	@NotBlank(message = "La contraseña no se puede dejar en blanco")
+	@Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
 	private String password;
 
 	public SignUpRequest() {}
