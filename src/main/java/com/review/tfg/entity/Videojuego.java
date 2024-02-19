@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.review.tfg.dto.videojuego.request.VideojuegoCreateDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +17,11 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "VIDEOJUEGO")
@@ -23,18 +30,24 @@ public class Videojuego {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column
+	@Column(unique=true)
+	@NotBlank(message = "El nombre no puede ser nulo")
 	private String nombre;
 	
 	@Column
+	@NotNull(message = "La fecha de creacion no puede ser nula")
+	@Temporal(TemporalType.DATE)
 	private Date fechaCreacion;
 	
 	@Lob
 	@Column(length = 16000000)
+	@Size(max = 16000000, message = "La imagen de portada es demasiado grande")
 	private byte[] imagenPortada;
 	
 	@Lob
 	@Column(length = 5000)
+	@NotBlank(message = "La sinopsis no puede ser nula")
+	@Size(max = 5000, message = "La sinópsis es demasiado larga, se permiten hasta 5000 caracteres")
 	private String sinopsis;
 	
 	@OneToMany(mappedBy = "videojuego")
@@ -55,6 +68,18 @@ public class Videojuego {
 		this.fechaCreacion = fechaCreacion;
 		this.imagenPortada = imagenPortada;
 		this.sinopsis = sinopsis;
+		
+		
+		this.id = null;
+		this.listaReviews = new HashSet<>();
+		this.tags = new HashSet<>();
+	}
+
+	public Videojuego(VideojuegoCreateDTO videojuego) {
+		this.nombre = videojuego.getNombre();
+		this.fechaCreacion = videojuego.getFechaCreacion();
+		this.imagenPortada = videojuego.getImagenPortada();
+		this.sinopsis = videojuego.getSinopsis();
 		
 		
 		this.id = null;

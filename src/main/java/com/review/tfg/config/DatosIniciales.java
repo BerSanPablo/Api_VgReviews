@@ -1,5 +1,7 @@
 package com.review.tfg.config;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,9 @@ import org.springframework.stereotype.Component;
 
 import com.review.tfg.entity.Role;
 import com.review.tfg.entity.Usuario;
+import com.review.tfg.entity.Videojuego;
 import com.review.tfg.repository.UsuarioRepository;
+import com.review.tfg.repository.VideojuegoRepository;
 
 @Profile("demo")
 @Component
@@ -18,6 +22,9 @@ public class DatosIniciales implements CommandLineRunner {
 	
 	@Autowired
     private UsuarioRepository userRepo;
+	
+	@Autowired
+	private VideojuegoRepository gameRepo;
 	
 
 	private static final Logger logger = LoggerFactory.getLogger(DatosIniciales.class);
@@ -38,6 +45,18 @@ public class DatosIniciales implements CommandLineRunner {
 			admin.getRoles().add(Role.ROLE_ADMIN);
 			userRepo.save(admin);
 			logger.info("## Admin guardado ##");
+		}
+		
+		if(gameRepo.findByNombre("VideojuegoTest") == null) {
+			logger.info("## Creando videojuego ##");
+			Videojuego game = new Videojuego(
+						"VideojuegoTest",
+						new Date(),
+						"ImagenRota".getBytes(),
+						"Sinopsis"
+					);
+			gameRepo.save(game);
+			logger.info("## Videojuego guardado ##");
 		}
 		
 		logger.info("## Saliendo del CommandLineRunner ##");

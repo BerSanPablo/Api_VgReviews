@@ -46,6 +46,9 @@ public class SecurityConfig {
                 
                 .requestMatchers("/api/v1/user/roles").authenticated()
                 .requestMatchers("/api/v1/user/**").hasAuthority(Role.ROLE_ADMIN.toString())
+
+                .requestMatchers(HttpMethod.GET, "/api/v1/videojuego/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/videojuego/**").hasAuthority(Role.ROLE_ADMIN.toString())
                 
                 .anyRequest().authenticated())
                 
