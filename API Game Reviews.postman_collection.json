@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "ab707f8b-9d14-4b26-b4ab-b54ea2f7e11c",
+		"name": "API Game Reviews",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32189056"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"passwordadmin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/{{API_V1}}/{{SERVICIO_AUTH}}/login",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"{{API_V1}}",
+								"{{SERVICIO_AUTH}}",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nick\": \"usuario\",\r\n    \"email\": \"usuario@usuario\",\r\n    \"password\": \"passwordusuario\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/{{API_V1}}/{{SERVICIO_AUTH}}/signup",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"{{API_V1}}",
+								"{{SERVICIO_AUTH}}",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login con token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwODA3NjQwMiwiZXhwIjoxNzA4MTYyODAyfQ.74vWn7GBGg5CQl3Z_WG5oDNKVavEcFMIrz5d0lPtdvk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/{{API_V1}}/{{SERVICIO_AUTH}}/loginToken",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"{{API_V1}}",
+								"{{SERVICIO_AUTH}}",
+								"loginToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Permisos de mi usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwODA3NjQ2NSwiZXhwIjoxNzA4MTYyODY1fQ.Xf5d28bRQfDe2-zFxPEXJAhqHJzMWFxqTI4WfSGAvY8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/{{API_V1}}/{{SERVICIO_USER}}/roles",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"{{API_V1}}",
+								"{{SERVICIO_USER}}",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista de usuarios (ADMIN)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTcwODA3NTAxNSwiZXhwIjoxNzA4MTYxNDE1fQ.9LiZVsODHN5_c3UQLJXvnlp1hicw1TG2wP9Y_r-c0wE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/{{API_V1}}/{{SERVICIO_USER}}/",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"{{API_V1}}",
+								"{{SERVICIO_USER}}",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "API_V1",
+			"value": "api/v1",
+			"type": "string"
+		},
+		{
+			"key": "SERVICIO_AUTH",
+			"value": "auth",
+			"type": "string"
+		},
+		{
+			"key": "SERVICIO_USER",
+			"value": "user",
+			"type": "string"
+		}
+	]
+}
