@@ -24,6 +24,9 @@ public class VideojuegoServiceImpl implements VideojuegoService{
 	@Override
 	public VideojuegoResponse createVideojuego(VideojuegoCreateDTO videojuego) {
 		Videojuego guardado = videojuegoRepository.save(new Videojuego(videojuego));
+		
+		//TODO - Sacar los tags del dto y añadirselo al videojuego
+		
 		return new VideojuegoResponse(guardado);
 	}
 

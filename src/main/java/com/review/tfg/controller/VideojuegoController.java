@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,13 +28,13 @@ public class VideojuegoController {
 	@Autowired
 	VideojuegoService videojuegoService;
 	
-	@PostMapping("/")
+	@PostMapping("")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<VideojuegoResponse> postVideojuego(@Valid VideojuegoCreateDTO videojuego) {
+    public ResponseEntity<VideojuegoResponse> postVideojuego(@RequestBody @Valid VideojuegoCreateDTO videojuego) {
         return ResponseEntity.ok(videojuegoService.createVideojuego(videojuego));
     }
 	
-	@GetMapping("/")
+	@GetMapping("")
     public ResponseEntity<List<VideojuegoResponse>> getVideojuegos() {
         return ResponseEntity.ok(videojuegoService.getVideojuegos());
     }

@@ -2,11 +2,9 @@ package com.review.tfg.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 import com.review.tfg.dto.auth.request.LoginRequest;
@@ -30,6 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
     private final JwtService jwtService;
     
     public AuthenticationServiceImpl(UsuarioRepository userRepository,
+    								 PasswordEncoder passwordEncoder,
 							         JwtService jwtService) {
 	this.userRepo = userRepository;
 	this.passwordEncoder = new BCryptPasswordEncoder(10);
