@@ -29,6 +29,10 @@ public class Tag {
 	@ManyToMany(mappedBy = "tags")
 	private List<Videojuego> listaVideojuegos;
 	
+	public Tag() {
+		
+	}
+	
 	public Tag(String nombre, String descripción) {
 		super();
 		this.nombre = nombre;

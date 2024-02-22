@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.review.tfg.dto.videojuego.request.VideojuegoCreateDTO;
 import com.review.tfg.dto.videojuego.response.VideojuegoResponse;
+import com.review.tfg.entity.Tag;
 import com.review.tfg.entity.Videojuego;
+import com.review.tfg.repository.TagRepository;
 import com.review.tfg.repository.VideojuegoRepository;
 import com.review.tfg.service.VideojuegoService;
 
@@ -20,12 +22,20 @@ public class VideojuegoServiceImpl implements VideojuegoService{
 	
 	@Autowired
 	VideojuegoRepository videojuegoRepository;
+	
+	@Autowired
+	TagRepository tagRepository;
 
 	@Override
 	public VideojuegoResponse createVideojuego(VideojuegoCreateDTO videojuego) {
-		Videojuego guardado = videojuegoRepository.save(new Videojuego(videojuego));
+		Videojuego entidadInsertar = new Videojuego(videojuego);
 		
-		//TODO - Sacar los tags del dto y añadirselo al videojuego
+		videojuego.getTags().forEach(tag -> {
+			Tag tagEncontrado = tagRepository.findByNombre(tag);
+			entidadInsertar.getTags().add(tagEncontrado);
+		});
+		
+		Videojuego guardado = videojuegoRepository.save(entidadInsertar);
 		
 		return new VideojuegoResponse(guardado);
 	}
