@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.review.tfg.dto.videojuego.request.VideojuegoCreateDTO;
@@ -35,7 +37,14 @@ public class VideojuegoController {
     }
 	
 	@GetMapping("")
-    public ResponseEntity<List<VideojuegoResponse>> getVideojuegos() {
-        return ResponseEntity.ok(videojuegoService.getVideojuegos());
+    public ResponseEntity<List<VideojuegoResponse>> getVideojuegos(@RequestParam(required = false) String nombre,
+			  													   @RequestParam(required = false) String[] tag) {
+        
+        return ResponseEntity.ok(videojuegoService.getVideojuegos(nombre, tag));
+    }
+	
+	@GetMapping("/{nombre}")
+    public ResponseEntity<VideojuegoResponse> getVideojuegoByName(@PathVariable String nombre) {
+        return ResponseEntity.ok(videojuegoService.getVideojuegoByName(nombre));
     }
 }

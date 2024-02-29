@@ -7,5 +7,6 @@ import com.review.tfg.dto.videojuego.response.VideojuegoResponse;
 
 public interface VideojuegoService {
 	VideojuegoResponse createVideojuego(VideojuegoCreateDTO videojuego);
-	List<VideojuegoResponse> getVideojuegos();
+	VideojuegoResponse getVideojuegoByName(String nombre);
+	List<VideojuegoResponse> getVideojuegos(String nombre, String[] tags);
 }

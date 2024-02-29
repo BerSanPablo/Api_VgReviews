@@ -18,6 +18,7 @@ import com.review.tfg.dto.auth.response.ErrorListResponse;
 import com.review.tfg.error.exception.BadTokenException;
 import com.review.tfg.error.exception.CantCreateUserException;
 import com.review.tfg.error.exception.UserNotFoundException;
+import com.review.tfg.error.exception.VideojuegoNotFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -50,6 +51,24 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorDetailsResponse> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+    	ErrorDetailsResponse errorDetails = new ErrorDetailsResponse(
+            new Date(),
+            ex.getMessage(),
+            request.getDescription(false));
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+	/**
+     * ###################################################
+     * #       No se encuentra el videojuego - 404      ##
+     * ###################################################
+     * @param ex
+     * @param request
+     * @return ErrorDetailsResponse
+     */
+    @ExceptionHandler(VideojuegoNotFoundException.class)
+    public ResponseEntity<ErrorDetailsResponse> handleVideojuegoNotFoundException(VideojuegoNotFoundException ex, WebRequest request) {
     	ErrorDetailsResponse errorDetails = new ErrorDetailsResponse(
             new Date(),
             ex.getMessage(),
@@ -112,7 +131,7 @@ public class GlobalExceptionHandler {
     	ErrorDetailsResponse errorDetails = new ErrorDetailsResponse(
             new Date(),
             ex.getMessage(),
-            request.getDescription(false));
+            "Se ha violado una clave primaria al intentar guardar una entidad");
 
         return new ResponseEntity<>(errorDetails, HttpStatus.CONFLICT);
     }
