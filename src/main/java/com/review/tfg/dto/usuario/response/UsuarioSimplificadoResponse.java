@@ -5,7 +5,7 @@ import com.review.tfg.entity.Usuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class UsuarioDTO {
+public class UsuarioSimplificadoResponse {
 	
 	@Size(max = 16000000, message = "La imagen de perfil es demasiado grande")
 	private byte[] imagenPerfil;
@@ -14,14 +14,14 @@ public class UsuarioDTO {
 	@Size(max = 100, message = "El nick debe tener un maximo de 100 caracteres")
 	private String nick;
 	
-	public UsuarioDTO() {}
+	public UsuarioSimplificadoResponse() {}
 	
-	public UsuarioDTO(Usuario usuario) {
+	public UsuarioSimplificadoResponse(Usuario usuario) {
 		this.imagenPerfil = usuario.getImagenPerfil();
 		this.nick = usuario.getNick();
 	}
 
-	public UsuarioDTO(byte[] imagenPerfil, String nick) {
+	public UsuarioSimplificadoResponse(byte[] imagenPerfil, String nick) {
 		this.imagenPerfil = imagenPerfil;
 		this.nick = nick;
 	}

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.review.tfg.dto.usuario.response.UsuarioDTO;
+import com.review.tfg.dto.usuario.response.UsuarioSimplificadoResponse;
 import com.review.tfg.entity.Usuario;
 import com.review.tfg.error.exception.UserNotFoundException;
 import com.review.tfg.repository.UsuarioRepository;
@@ -39,10 +39,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
 	@Override
-	public List<UsuarioDTO> obtenerUsuarios() {
+	public List<UsuarioSimplificadoResponse> obtenerUsuarios() {
 		return repo.findAll()
 					.stream()
-					.map(UsuarioDTO::new)
+					.map(UsuarioSimplificadoResponse::new)
 					.collect(Collectors.toList());
 	}
 

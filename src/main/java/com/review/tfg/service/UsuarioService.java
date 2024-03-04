@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.review.tfg.dto.usuario.response.UsuarioDTO;
+import com.review.tfg.dto.usuario.response.UsuarioSimplificadoResponse;
 
 public interface UsuarioService {
 	UserDetailsService userDetailsService();
-	List<UsuarioDTO> obtenerUsuarios();
+	List<UsuarioSimplificadoResponse> obtenerUsuarios();
 }

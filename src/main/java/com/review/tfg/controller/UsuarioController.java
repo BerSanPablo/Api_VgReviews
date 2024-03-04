@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.review.tfg.dto.usuario.response.UsuarioDTO;
+import com.review.tfg.dto.usuario.response.UsuarioSimplificadoResponse;
 import com.review.tfg.service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ public class UsuarioController {
 
 	@GetMapping("/")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<UsuarioDTO>> getUsuarios(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<UsuarioSimplificadoResponse>> getUsuarios(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(usuarioService.obtenerUsuarios());
     }
 
